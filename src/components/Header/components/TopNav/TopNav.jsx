@@ -3,7 +3,7 @@ import React from "react";
 import { get, post } from "../../../../api/axios";
 
 export default function TopNav() {
-  get("hello").then((res) => {
+  get("hello", {}, { skipToken: true }).then((res) => {
     console.log("res：", res);
   });
   return (

@@ -35,10 +35,14 @@ export default function User() {
     // }
     // console.log("cookieDic :>> ", cookieDic["user-name"]);
     if (cookieUserName && cookieIssueTime) {
-      post("user/cookies", {
-        UserName: cookieUserName,
-        IssueTime: cookieIssueTime,
-      }).then((res) => {
+      post(
+        "user/cookies",
+        {
+          UserName: cookieUserName,
+          IssueTime: cookieIssueTime,
+        },
+        { skipToken: true }
+      ).then((res) => {
         dispatch(login({ userName: cookieUserName }));
       });
     }

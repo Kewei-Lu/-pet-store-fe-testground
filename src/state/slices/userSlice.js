@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   logined: false,
   userName: "",
-  // token: { value: "", expireTime: "" },
 };
 
 export const counterSlice = createSlice({
@@ -21,7 +20,6 @@ export const counterSlice = createSlice({
     logout: (state) => {
       state.logined = false;
       state.userName = "";
-      // state.token = { value: "", expireTime: "" };
     },
   },
 });

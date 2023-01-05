@@ -14,10 +14,14 @@ export default function Register() {
   } = useForm();
   const handleRegister = async (data) => {
     try {
-      var res = await post("user/register", {
-        userName: data.userName,
-        passWord: data.passWord,
-      });
+      var res = await post(
+        "user/register",
+        {
+          userName: data.userName,
+          passWord: data.passWord,
+        },
+        { skipToken: true }
+      );
       alert("Success in registering");
     } catch (res) {
       console.log("res", JSON.stringify(res.response.data));
