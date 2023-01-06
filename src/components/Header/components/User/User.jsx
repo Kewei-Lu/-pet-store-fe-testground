@@ -19,35 +19,6 @@ export default function User() {
     setAnchorEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    // const cookieDic = new Map();
-    const cookieUserName = cookie.load("user-name");
-    const cookieIssueTime = cookie.load("issue-time");
-    console.log("cookie: ", cookie.load("user-name"));
-    // const arrCookie = document.cookie.split("; ");
-    // for (var i = 0; i < arrCookie.length; i++) {
-    //   var arr = arrCookie[i].split("=");
-    //   if (arr[0] === "user-name") {
-    //     cookieDic["user-name"] = arr[1];
-    //   } else if (arr[0] === "issue-time") {
-    //     cookieDic["issue-time"] = arr[1];
-    //   }
-    // }
-    // console.log("cookieDic :>> ", cookieDic["user-name"]);
-    if (cookieUserName && cookieIssueTime) {
-      post(
-        "user/cookies",
-        {
-          UserName: cookieUserName,
-          IssueTime: cookieIssueTime,
-        },
-        { skipToken: true }
-      ).then((res) => {
-        dispatch(login({ userName: cookieUserName }));
-      });
-    }
-  }, []);
-
   const popOver = (
     <Popover
       onClose={() => {

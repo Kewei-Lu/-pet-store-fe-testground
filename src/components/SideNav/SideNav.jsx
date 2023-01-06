@@ -7,8 +7,10 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { useNavigate } from "react-router-dom";
 
 export default function SideNav(props) {
+  const navigate = useNavigate();
   const { show, anchor, setShow } = props;
   const [state, setState] = React.useState({
     left: false,
@@ -32,13 +34,33 @@ export default function SideNav(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["NSWE PET STORE", "ADD", "BUY", "ABOUT US"].map((text) => (
+        {["NSWE PET STORE", "ADD", "BUY"].map((text) => (
           <ListItem disablePadding key={text}>
             <ListItemButton>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem disablePadding key="ABOUT ME">
+          <ListItemButton>
+            <ListItemText
+              primary={"ABOUT ME"}
+              onClick={() => {
+                navigate("/account");
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding key="ABOUT US">
+          <ListItemButton>
+            <ListItemText
+              primary={"ABOUT US"}
+              onClick={() => {
+                navigate("/index");
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
     </Box>

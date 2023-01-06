@@ -13,11 +13,16 @@ instance.defaults.headers.post["Content-Type"] = "application/json";
 
 instance.interceptors.request.use(
   (config) => {
-    const tokenInCookie = cookie.load("X-Token");
+    const XTokenInCookie = cookie.load("X-Token");
+    const jwtTokenInCookie = cookie.load("jwt-token");
     if (!config.skipToken) {
-      if (tokenInCookie) {
-        config.headers["X-Token"] = tokenInCookie;
-      } else {
+      if (XTokenInCookie) {
+        config.headers["X-Token"] = XTokenInCookie;
+      }
+      if (jwtTokenInCookie) {
+        config.headers["jwt-token"] = jwtTokenInCookie;
+      }
+      if (!config.headers["jwt-token"] || !config.headers["X-Token"]) {
         console.log("token expires or not logged in :>> ", config.url);
         alert("token expires or not logged in", config.url);
         store.dispatch(logout());
