@@ -18,14 +18,13 @@ function App() {
     // const cookieDic = new Map();
     const cookieUserName = cookie.load("user-name");
     const cookieIssueTime = cookie.load("issue-time");
-    const jwtToken = cookie.load("jwt-token");
-    console.log("cookie: ", cookie.load("user-name"));
-    if (cookieUserName && cookieIssueTime && jwtToken) {
-      post("auth/relogin", {
-        Token: jwtToken,
+    if (cookieUserName && cookieIssueTime) {
+      post("user/cookies", {
+        UserName: cookieUserName,
+        IssueTime: cookieIssueTime,
       }).then((res) => {
         if (res.data.Success) {
-          dispatch(login({ userName: res.data.UserName }));
+          dispatch(login({ userName: cookieUserName }));
         } else {
           console.error("API returns success but no username is returned");
         }
