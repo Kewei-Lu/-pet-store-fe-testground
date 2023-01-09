@@ -1,7 +1,7 @@
 import axios from "axios";
 import cookie from "react-cookies";
 
-let baseUrl = "http://10.67.103.83:8000/api/";
+let baseUrl = "http://kewei.sh.intel.com:8000/api/";
 
 const instance = axios.create({
   timeout: 10000,
