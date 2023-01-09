@@ -43,6 +43,7 @@ export default function TransformFund() {
           <Controller
             name="sender"
             control={control}
+            defaultValue={userName}
             render={({ field }) => (
               <TextField
                 {...field}
