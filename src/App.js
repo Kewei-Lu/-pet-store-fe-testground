@@ -24,7 +24,7 @@ function App() {
         IssueTime: cookieIssueTime,
       }).then((res) => {
         if (res.data.Success) {
-          dispatch(login({ userName: res.data.UserName }));
+          dispatch(login({ userName: cookieUserName }));
         } else {
           console.error("API returns success but no username is returned");
         }
