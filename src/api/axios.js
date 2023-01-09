@@ -8,6 +8,7 @@ let baseUrl = "http://kewei.sh.intel.com:8000/api/";
 const instance = axios.create({
   timeout: 10000,
   baseURL: baseUrl,
+  withCredentials: true,
 });
 instance.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -17,12 +18,15 @@ instance.interceptors.request.use(
     const jwtTokenInCookie = cookie.load("jwt-token");
     if (!config.skipToken) {
       if (XTokenInCookie) {
+        if (config.headers["X-Token"]) {
+          delete config.headers["X-Token"];
+        }
         config.headers["X-Token"] = XTokenInCookie;
       }
       if (jwtTokenInCookie) {
         config.headers["jwt-token"] = jwtTokenInCookie;
       }
-      if (!config.headers["jwt-token"] || !config.headers["X-Token"]) {
+      if (!config.headers["jwt-token"] && !config.headers["X-Token"]) {
         console.log("token expires or not logged in :>> ", config.url);
         alert("token expires or not logged in", config.url);
         store.dispatch(logout());
@@ -55,7 +59,6 @@ export const get = (url, params, config = { skipToken: false }) => {
       .get(url, {
         params,
         ...config,
-        withCredentials: true,
       })
       .then((response) => {
         resolve(response);
@@ -71,7 +74,6 @@ export const post = (url, data, config = { skipToken: false }) => {
   return new Promise((resolve, reject) => {
     instance
       .post(url, data, {
-        withCredentials: true,
         ...config,
       })
       .then((response) => {

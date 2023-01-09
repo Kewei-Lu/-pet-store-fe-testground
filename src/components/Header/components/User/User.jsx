@@ -58,8 +58,13 @@ export default function User() {
                   <Button
                     onClick={() => {
                       dispatch(logout());
-                      cookie.remove("user-name");
-                      cookie.remove("issue-time");
+                      cookie.remove("user-name", { path: "/" });
+                      cookie.remove("issue-time", { path: "/" });
+                      cookie.remove("X-Token", {
+                        path: "/",
+                        domain: "kewei.sh.intel.com",
+                      });
+                      cookie.remove("jwt-token", { path: "/" });
                     }}
                   >
                     Logout

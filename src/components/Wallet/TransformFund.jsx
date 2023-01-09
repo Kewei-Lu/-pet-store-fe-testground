@@ -31,6 +31,7 @@ export default function TransformFund() {
         }`,
         {}
       );
+      alert("success")
     } catch (e) {
       alert(e);
     }
