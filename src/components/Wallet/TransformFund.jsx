@@ -26,7 +26,9 @@ export default function TransformFund() {
   const handleTransfer = async (data) => {
     try {
       await post(
-        `money/transfer?from=${userName}&to=${data.receiver}&amount=${data.amount}`,
+        `money/transfer?from=${data.sender}&to=${data.receiver}&amount=${
+          data.amount * 1000
+        }`,
         {}
       );
     } catch (e) {
@@ -44,7 +46,7 @@ export default function TransformFund() {
             render={({ field }) => (
               <TextField
                 {...field}
-                disabled
+                // disabled
                 defaultValue={userName}
                 FormHelperTextProps={{ sx: { display: "inline" } }}
                 label="Sender"
