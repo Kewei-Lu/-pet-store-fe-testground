@@ -16,15 +16,13 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     // const cookieDic = new Map();
-    const cookieUserName = cookie.load("user-name");
-    const cookieIssueTime = cookie.load("issue-time");
-    if (cookieUserName && cookieIssueTime) {
-      post("user/cookies", {
-        UserName: cookieUserName,
-        IssueTime: cookieIssueTime,
+    const cookieJwtToken = cookie.load("jwt-cookie");
+    if (cookieJwtToken) {
+      post("auth/relogin", {
+        Token: cookieJwtToken,
       }).then((res) => {
         if (res.data.Success) {
-          dispatch(login({ userName: cookieUserName }));
+          dispatch(login({ userName: res.data.UserName }));
         } else {
           console.error("API returns success but no username is returned");
         }
