@@ -16,7 +16,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     // const cookieDic = new Map();
-    const cookieJwtToken = cookie.load("jwt-cookie");
+    const cookieJwtToken = cookie.load("jwt-token");
     if (cookieJwtToken) {
       post("auth/relogin", {
         Token: cookieJwtToken,

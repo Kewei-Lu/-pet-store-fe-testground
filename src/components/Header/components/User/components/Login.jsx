@@ -18,14 +18,10 @@ export default function Login() {
   const handleLogin = async (data) => {
     console.log("object :>> ", data);
     try {
-      var res = await post(
-        "user/login",
-        {
-          userName: data.userName,
-          passWord: data.passWord,
-        },
-        { skipToken: true }
-      );
+      var res = await post("user/login", {
+        userName: data.userName,
+        passWord: data.passWord,
+      });
       alert(`Welcome back ${data.userName}`);
       dispatch(login({ userName: data.userName }));
     } catch (res) {

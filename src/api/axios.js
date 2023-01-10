@@ -18,9 +18,6 @@ instance.interceptors.request.use(
     const jwtTokenInCookie = cookie.load("jwt-token");
     if (!config.skipToken) {
       if (XTokenInCookie) {
-        if (config.headers["X-Token"]) {
-          delete config.headers["X-Token"];
-        }
         config.headers["X-Token"] = XTokenInCookie;
       }
       if (jwtTokenInCookie) {
