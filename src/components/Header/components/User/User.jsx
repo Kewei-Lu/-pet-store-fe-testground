@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Grid, Box, Button, Typography, Popover, Avatar } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../../../../state/slices/userSlice";
-import Money from "./components/Money";
-import { get, post } from "../../../../api/axios";
-import cookie from "react-cookies";
+import { Avatar, Box, Button, Grid, Popover, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import cookie from 'react-cookies';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { logout } from '../../../../state/slices/userSlice';
+import Login from '../../../User/Login';
+import Money from '../../../User/Money';
+import Register from '../../../User/Register';
 
 export default function User() {
   const logined = useSelector((state) => state.user.logined);
@@ -27,44 +26,40 @@ export default function User() {
       open={Boolean(anchorEl)}
       anchorEl={anchorEl}
     >
-      <Box sx={{ height: "300px", width: "200px" }}>
-        {logined ? (
+      {logined ? (
+        <Box sx={{ height: '380px', width: '300px' }}>
           <Grid
             container
             direction="column"
-            sx={{ height: "100%" }}
+            sx={{ height: '100%' }}
             alignItems="stretch"
             rowSpacing={2}
           >
             <Grid item alignContent="center" sx={{ mt: 2 }}>
-              <Avatar sx={{ ml: "auto", mr: "auto" }}>
+              <Avatar sx={{ ml: 'auto', mr: 'auto' }}>
                 {userName.length > 3 ? userName.substring(0, 3) : userName}
               </Avatar>
             </Grid>
-            <Grid item sx={{ ml: "auto", mr: "auto" }}>
+            <Grid item sx={{ ml: 'auto', mr: 'auto' }}>
               <Typography>{userName}</Typography>
             </Grid>
-            <Grid item sx={{ ml: "auto", mr: "auto" }}>
+            <Grid item sx={{ ml: 'auto', mr: 'auto' }}>
               <Money />
             </Grid>
             <Grid item flex={1}>
-              <Grid
-                container
-                alignItems="flex-end"
-                justifyContent="flex-end"
-                height="100%"
-              >
+              <Grid container alignItems="flex-end" justifyContent="flex-end" height="100%">
                 <Grid item>
                   <Button
                     onClick={() => {
                       dispatch(logout());
-                      cookie.remove("user-name", { path: "/" });
-                      cookie.remove("issue-time", { path: "/" });
-                      cookie.remove("X-Token", {
-                        path: "/",
-                        domain: "kewei.sh.intel.com",
+                      cookie.remove('user-name', { path: '/' });
+                      cookie.remove('issue-time', { path: '/' });
+                      cookie.remove('X-Token', {
+                        path: '/',
+                        domain: 'kewei.sh.intel.com',
                       });
-                      cookie.remove("jwt-token", { path: "/" });
+                      cookie.remove('refresh-token', { path: '/' });
+                      cookie.remove('access-token', { path: '/' });
                     }}
                   >
                     Logout
@@ -73,43 +68,51 @@ export default function User() {
               </Grid>
             </Grid>
           </Grid>
-        ) : (
-          <Grid container direction="column" sx={{ height: "100%" }}>
+        </Box>
+      ) : (
+        <Box sx={{ height: '380px', width: '300px' }}>
+          <Grid container direction="column" sx={{ height: '100%' }}>
             <Grid item>{registerMode ? <Register /> : <Login />}</Grid>
             <Grid item flex={1}>
               {registerMode ? (
                 <Button
-                  sx={{ ml: 1, mt: 2 }}
+                  sx={{ ml: 1, mt: 2, position: 'absolute', bottom: '20px' }}
                   onClick={() => {
                     setRegisterMode(false);
                   }}
                 >
-                  <Typography sx={{ fontSize: "0.675rem" }}>
-                    Back to Login
-                  </Typography>
+                  <Typography sx={{ fontSize: '0.675rem' }}>Back to Login</Typography>
                 </Button>
               ) : (
                 <Button
                   onClick={() => {
                     setRegisterMode(true);
                   }}
-                  sx={{ ml: 1, mt: 2 }}
+                  sx={{ ml: 1, mt: 2, position: 'absolute', bottom: '20px' }}
                 >
-                  <Typography sx={{ fontSize: "0.675rem" }}>
-                    Do not have an accout?
-                  </Typography>
+                  <Typography sx={{ fontSize: '0.675rem' }}>Do not have an accout?</Typography>
                 </Button>
               )}
             </Grid>
           </Grid>
-        )}
-      </Box>
+        </Box>
+      )}
     </Popover>
   );
   return (
-    <React.Fragment>
-      <PersonIcon onClick={handleClick} />
+    <>
+      <Box onClick={handleClick}>
+        {logined ? (
+          <Avatar sx={{ width: 40, height: 40, bgcolor: 'cadetblue' }}>
+            {userName.length > 3 ? userName.substring(0, 3) : userName}{' '}
+          </Avatar>
+        ) : (
+          <Button>
+            <Typography color="white">Sign In</Typography>
+          </Button>
+        )}
+      </Box>
       {popOver}
-    </React.Fragment>
+    </>
   );
 }

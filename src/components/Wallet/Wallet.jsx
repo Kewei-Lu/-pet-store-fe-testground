@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { Button, Typography, Modal, Box, Tabs, Tab, Grid } from "@mui/material";
-import AddFundForm from "./AddFundForm";
-import TransformFund from "./TransformFund";
+import { Box, Button, Grid, Modal, Tab, Tabs, Typography } from '@mui/material';
+import React, { useState } from 'react';
+
+import AddFundForm from './AddFundForm';
+import TransformFund from './TransformFund';
 
 export default function Wallet(props) {
   const { open, closeCb } = props;
   const [selectedTab, setSelectedTab] = useState(1);
   const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 800,
     height: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
@@ -24,6 +25,8 @@ export default function Wallet(props) {
         return <AddFundForm />;
       case 2:
         return <TransformFund />;
+      default:
+        return null;
     }
   };
   return (

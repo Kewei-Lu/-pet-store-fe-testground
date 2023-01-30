@@ -1,88 +1,54 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Button, Card, CardContent, CardHeader, Grid } from '@mui/material';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { Button, Card, CardContent, CardHeader, Grid, IconButton } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import { get, post } from '../../../../../api/axios';
-import { login } from '../../../../../state/slices/userSlice';
+import { postV1 } from '../../api/axios/v1';
 
-export default function Login() {
-  const dispatch = useDispatch();
-
+export default function Register() {
+  const [showPassWord, setShowPassWord] = useState(false);
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm();
-  const handleLogin = async (data) => {
-    console.log('object :>> ', data);
+  const handleRegister = async (data) => {
     try {
-      var res = await post(
-        'user/login',
-        {
-          userName: data.userName,
-          passWord: data.passWord,
-        },
-        { skipToken: true },
-      );
-      alert(`Welcome back ${data.userName}`);
-      dispatch(login({ userName: data.userName }));
-    } catch (res) {
-      alert(`error :>> ${JSON.stringify(res.response.data)}`);
+      await postV1('user/register', {
+        userName: data.userName,
+        passWord: data.passWord,
+      });
+      alert('Success in registering');
+    } catch (error) {
+      console.log('res', JSON.stringify(error));
+      alert(`error :>> ${JSON.stringify(error)}`);
     }
   };
+  const passWord = watch('passWord');
   return (
     <Card sx={{ border: 'none' }} variant="outlined">
-      <Grid container>
+      <Grid container alignItems="center" justifyContent="center">
         <Grid item>
-          <CardHeader title="Login"></CardHeader>
+          <CardHeader title="Register" />
         </Grid>
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleSubmit(handleRegister)}>
           <Grid item xs={12}>
             <CardContent sx={{ pt: 0, pb: 0 }}>
               <Controller
+                defaultValue=""
                 name="userName"
                 control={control}
                 rules={{ required: 'UserName is required' }}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    // helperText={
-                    //   errors.userName?.message ? errors.userName?.message : null
-                    // }
                     error={Boolean(errors.userName?.message)}
                     label="UserName"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AccountCircle />
-                        </InputAdornment>
-                      ),
-                    }}
-                    variant="standard"
-                  ></TextField>
-                )}
-              />
-            </CardContent>
-          </Grid>
-          <Grid item xs={12}>
-            <CardContent sx={{ pt: 0 }}>
-              <Controller
-                name="passWord"
-                control={control}
-                rules={{ required: 'PassWord is required' }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    id="input-with-icon-textfield"
-                    label="PassWord"
-                    error={Boolean(errors.userName?.message)}
-                    // helperText={
-                    //   errors.passWord?.message ? errors.passWord?.message : null
-                    // }
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -96,9 +62,58 @@ export default function Login() {
               />
             </CardContent>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
+            <CardContent sx={{ pt: 0 }}>
+              <Controller
+                defaultValue=""
+                name="passWord"
+                control={control}
+                rules={{ required: 'PassWord is required' }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    id="input-with-icon-textfield"
+                    label="PassWord"
+                    error={Boolean(errors.userName?.message)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccountCircle />
+                        </InputAdornment>
+                      ),
+                      endAdornment: passWord ? (
+                        showPassWord ? (
+                          <IconButton
+                            sx={{ p: 0 }}
+                            onClick={() => {
+                              setShowPassWord(false);
+                            }}
+                          >
+                            <VisibilityOffOutlinedIcon />
+                          </IconButton>
+                        ) : (
+                          <IconButton
+                            sx={{ p: 0, textAlign: 'center' }}
+                            onClick={() => {
+                              setShowPassWord(true);
+                            }}
+                          >
+                            <VisibilityOutlinedIcon />
+                          </IconButton>
+                        )
+                      ) : null,
+                      type: showPassWord ? 'text' : 'password',
+                    }}
+                    variant="standard"
+                  />
+                )}
+              />
+            </CardContent>
+          </Grid>
+
+          <Grid item textAlign="center">
             <Button sx={{ ml: 1 }} type="submit">
-              Login
+              Register
             </Button>
           </Grid>
         </form>

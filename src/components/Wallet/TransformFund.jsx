@@ -1,18 +1,9 @@
-import React from "react";
-import {
-  Button,
-  Typography,
-  Modal,
-  Box,
-  Tabs,
-  Tab,
-  Grid,
-  TextField,
-} from "@mui/material";
-import { useSelector } from "react-redux";
+import { Box, Button, Grid, Modal, Tab, Tabs, TextField, Typography } from '@mui/material';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
-import { Controller, useForm } from "react-hook-form";
-import { post } from "../../api/axios";
+import { postV2 } from '../../api/axios/v2';
 
 export default function TransformFund() {
   const {
@@ -21,17 +12,15 @@ export default function TransformFund() {
     formState: { errors },
   } = useForm();
   const userName = useSelector((state) => state.user.userName);
-  console.log("errors: ", errors);
+  console.log('errors: ', errors);
 
   const handleTransfer = async (data) => {
     try {
-      await post(
-        `money/transfer?from=${data.sender}&to=${data.receiver}&amount=${
-          data.amount * 1000
-        }`,
-        {}
+      await postV2(
+        `money/transfer?from=${data.sender}&to=${data.receiver}&amount=${data.amount * 1000}`,
+        {},
       );
-      alert("success")
+      alert('success');
     } catch (e) {
       alert(e);
     }
@@ -50,10 +39,10 @@ export default function TransformFund() {
                 {...field}
                 // disabled
                 defaultValue={userName}
-                FormHelperTextProps={{ sx: { display: "inline" } }}
+                FormHelperTextProps={{ sx: { display: 'inline' } }}
                 label="Sender"
                 variant="standard"
-              ></TextField>
+              />
             )}
           />
         </Grid>
@@ -61,17 +50,15 @@ export default function TransformFund() {
           <Controller
             name="receiver"
             control={control}
-            rules={{ required: "Receiver is required" }}
+            rules={{ required: 'Receiver is required' }}
             render={({ field }) => (
               <TextField
                 {...field}
                 error={Boolean(errors.receiver?.message)}
                 label="Receiver"
-                helperText={
-                  errors.receiver?.message ? errors.receiver.message : null
-                }
+                helperText={errors.receiver?.message ? errors.receiver.message : null}
                 variant="standard"
-              ></TextField>
+              />
             )}
           />
         </Grid>
@@ -80,10 +67,10 @@ export default function TransformFund() {
             name="amount"
             control={control}
             rules={{
-              required: "Amount is required",
+              required: 'Amount is required',
               pattern: {
                 value: /^[1-9]+[0-9]*/i,
-                message: "the amount should follow: ^[1-9]+[0-9]*",
+                message: 'the amount should follow: ^[1-9]+[0-9]*',
               },
             }}
             render={({ field }) => (
@@ -92,15 +79,13 @@ export default function TransformFund() {
                 error={Boolean(errors.amount?.message)}
                 label="Amount"
                 variant="standard"
-                helperText={
-                  errors.amount?.message ? errors.amount.message : null
-                }
-              ></TextField>
+                helperText={errors.amount?.message ? errors.amount.message : null}
+              />
             )}
           />
         </Grid>
         <Grid item xs={12}>
-          <Button sx={{ ml: "auto", display: "block" }} type="submit">
+          <Button sx={{ ml: 'auto', display: 'block' }} type="submit">
             Confirm
           </Button>
         </Grid>

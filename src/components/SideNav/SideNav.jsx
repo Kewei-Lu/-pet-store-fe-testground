@@ -1,30 +1,26 @@
-import React from "react";
-
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { useNavigate } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SideNav(props) {
   const navigate = useNavigate();
-  const { show, anchor, setShow } = props;
-  const [state, setState] = React.useState({
-    left: false,
-  });
+  const { show, anchorPosition, setShow } = props;
+  // const [show, setShow] = React.useState({
+  //   left: false,
+  // });
 
   const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setShow({ ...show, [anchor]: open });
   };
 
   const list = (anchor) => (
@@ -34,7 +30,7 @@ export default function SideNav(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["NSWE PET STORE", "ADD", "BUY"].map((text) => (
+        {['NSWE PET STORE', 'ADD', 'BUY'].map((text) => (
           <ListItem disablePadding key={text}>
             <ListItemButton>
               <ListItemText primary={text} />
@@ -44,9 +40,9 @@ export default function SideNav(props) {
         <ListItem disablePadding key="ABOUT ME">
           <ListItemButton>
             <ListItemText
-              primary={"ABOUT ME"}
+              primary="ABOUT ME"
               onClick={() => {
-                navigate("/account");
+                navigate('/account');
               }}
             />
           </ListItemButton>
@@ -54,9 +50,9 @@ export default function SideNav(props) {
         <ListItem disablePadding key="ABOUT US">
           <ListItemButton>
             <ListItemText
-              primary={"ABOUT US"}
+              primary="ABOUT US"
               onClick={() => {
-                navigate("/index");
+                navigate('/index');
               }}
             />
           </ListItemButton>
@@ -67,16 +63,14 @@ export default function SideNav(props) {
   );
 
   return (
-    <React.Fragment>
-      <Drawer
-        anchor={anchor}
-        open={show}
-        onClose={() => {
-          setShow(false);
-        }}
-      >
-        {list(anchor)}
-      </Drawer>
-    </React.Fragment>
+    <Drawer
+      anchor={anchorPosition}
+      open={show}
+      onClose={() => {
+        setShow(false);
+      }}
+    >
+      {list(anchorPosition)}
+    </Drawer>
   );
 }

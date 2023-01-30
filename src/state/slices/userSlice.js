@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   logined: false,
-  userName: "",
+  userName: '',
 };
 
 export const counterSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     login: (state, action) => {
@@ -19,7 +19,8 @@ export const counterSlice = createSlice({
     },
     logout: (state) => {
       state.logined = false;
-      state.userName = "";
+      state.userName = '';
+      state.accessToken = '';
     },
   },
 });
